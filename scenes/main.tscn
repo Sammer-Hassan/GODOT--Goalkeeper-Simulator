@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=11 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_kvn2k"]
@@ -20,11 +20,17 @@ tonemap_mode = 2
 fog_density = 0.001
 fog_sky_affect = 0.0
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_gvs1t"]
+size = Vector3(7.3, 2.3, 0)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_ihevs"]
+size = Vector2(20, 10)
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_xecma")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0271288, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15.3866, -0.64037, 30.5582)
 script = ExtResource("2_kvn2k")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
@@ -56,8 +62,21 @@ environment = SubResource("Environment_pi0m0")
 transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
 
-[node name="scene" parent="." instance=ExtResource("5_v5ou3")]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -20.7303, -0.230707, -40.8043)
+[node name="field" parent="." instance=ExtResource("5_v5ou3")]
+transform = Transform3D(0.075, 0, 0, 0, 0.075, 0, 0, 0, 0.075, 0, 0, 0)
+
+[node name="GoalLine" type="StaticBody3D" parent="."]
+transform = Transform3D(0.75, 0, 0, 0, 0.75, 0, 0, 0, 0.75, 15.2295, 0.902414, 31.4353)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GoalLine"]
+shape = SubResource("BoxShape3D_gvs1t")
+
+[node name="KickArea" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 14.8852, 0, 18.3986)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="KickArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.566723)
+mesh = SubResource("PlaneMesh_ihevs")
 
 [connection signal="input_vector2_changed" from="XROrigin3D/LeftController" to="XROrigin3D" method="process_input"]
 [connection signal="button_pressed" from="XROrigin3D/RightController" to="XROrigin3D" method="_on_right_controller_button_pressed"]
