@@ -14,3 +14,14 @@ func _ready():
 		get_viewport().use_xr = true
 	else:
 		print("OpenXR not initialized. Please check if your headset is connected.")
+	
+	var cornerPos1 = $KickAreaCorner1.position
+	var cornerPos2 = $KickAreaCorner2.position
+	var random_x = randf_range(cornerPos1.x,cornerPos2.x)
+	var random_z = randf_range(cornerPos1.z,cornerPos2.z)
+	$Ball.position.x = random_x
+	$Ball.position.z = random_z
+	$Ball.position.y = $Ball/MeshInstance3D.mesh.radius
+	
+	
+	
