@@ -28,11 +28,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-
-	
-	
-
-	
 	var currentType = null
 	if translationMode == 0:
 		currentType = $XRCamera3D
@@ -76,18 +71,3 @@ func process_input(input_name: String, input_value: Vector2):
 		canSnap = true;
 	if input_name == "primary":
 		input_vector = input_value
-
-func _on_right_controller_button_pressed(name):
-
-	if name == "ax_button":
-		if translationMode == 0:
-			translationMode = 1
-		else:
-			translationMode = 0
-
-			
-	if name == "by_button":
-		if turnMode == 0:
-			turnMode = 1
-		else:
-			turnMode = 0
