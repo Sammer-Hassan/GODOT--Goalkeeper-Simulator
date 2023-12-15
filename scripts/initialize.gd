@@ -15,6 +15,16 @@ func _ready():
 	else:
 		print("OpenXR not initialized. Please check if your headset is connected.")
 	
+
+	
+	var tween = create_tween()
+	
+	tween.tween_property($Ball, "position",getRandomPositions(), 1 )
+	
+
+#Returns random goal position for target
+func getRandomPositions():
+	## Set Ball To Random Location
 	var cornerPos1 = $KickAreaCorner1.position
 	var cornerPos2 = $KickAreaCorner2.position
 	var random_x = randf_range(cornerPos1.x,cornerPos2.x)
@@ -22,6 +32,20 @@ func _ready():
 	$Ball.position.x = random_x
 	$Ball.position.z = random_z
 	$Ball.position.y = $Ball/MeshInstance3D.mesh.radius
+	## Get Random GoalLine Point
+	var goalPost1 = $GoalPost1.position
+	var goalPost2 = $GoalPost2.position
+	var random_y = randf_range(goalPost1.y, goalPost2.y)
+	random_x = randf_range(goalPost1.x, goalPost2.x)
+	
+	return Vector3(random_x, random_y, goalPost1.z)
+
+	
+	
+	
+
+	
+	
 	
 	
 	
