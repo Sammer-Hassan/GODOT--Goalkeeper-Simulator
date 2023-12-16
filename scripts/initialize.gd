@@ -5,6 +5,7 @@ var currTarget;
 var xr_interface: XRInterface
 var tween
 var gameStarted = false;
+var ballSpeed = 1;
 
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
@@ -36,6 +37,7 @@ func animate_ball():
 	if gameStarted:
 		await get_tree().create_timer(1).timeout
 		tween = create_tween()
+		tween.set_speed_scale(ballSpeed)
 		tween.tween_property($Ball, "position",get_random_target(), 1)
 
 func set_random_start():
@@ -61,10 +63,11 @@ func get_random_target():
 
 
 func _on_left_controller_button_pressed(name):
-	if name == "by_button":
-		set_random_start()
+#	if name == "by_button":
+#		set_random_start()
 	if name == "ax_button":
-		animate_ball()
+		$SpatialMenu.visible = true
+		gameStarted = false
 
 func _on_right_controller_button_pressed(name):
 	if name == "by_button":
@@ -76,3 +79,7 @@ func _on_right_controller_button_pressed(name):
 func _on_button_pressed():
 	$SpatialMenu.visible = false
 	gameStarted = true
+	
+
+func _on_h_slider_value_changed(value):
+	ballSpeed = value

@@ -35,8 +35,11 @@ fog_sky_affect = 0.0
 albedo_texture = ExtResource("7_35njt")
 
 [sub_resource type="SphereMesh" id="SphereMesh_6n7no"]
+radius = 0.2
+height = 0.4
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_l430i"]
+radius = 0.2
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_i8222"]
 size = Vector3(4, 0.1, 2)
@@ -179,6 +182,29 @@ theme = SubResource("Theme_nqcch")
 theme_override_font_sizes/font_size = 300
 text = "Start"
 
+[node name="HSlider" type="HSlider" parent="SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 350.0
+offset_top = -124.0
+offset_right = 850.0
+offset_bottom = -108.0
+grow_vertical = 0
+scale = Vector2(3, 3)
+min_value = 0.5
+max_value = 2.5
+step = 0.1
+value = 1.0
+
+[node name="TextEdit" type="TextEdit" parent="SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 40.0
+offset_top = 870.0
+offset_right = 286.0
+offset_bottom = 970.0
+theme_override_font_sizes/font_size = 60
+text = "Velocity"
+
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="." method="_on_left_controller_button_pressed"]
 [connection signal="input_vector2_changed" from="XROrigin3D/LeftController" to="XROrigin3D" method="process_input"]
 [connection signal="button_pressed" from="XROrigin3D/RightController" to="." method="_on_right_controller_button_pressed"]
@@ -188,3 +214,5 @@ text = "Start"
 [connection signal="input_vector2_changed" from="XROrigin3D/RightController" to="XROrigin3D" method="process_input"]
 [connection signal="pressed" from="SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer/Button" to="SpatialMenu" method="_on_button_pressed"]
+[connection signal="changed" from="SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer/HSlider" to="." method="_on_h_slider_changed"]
+[connection signal="value_changed" from="SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer/HSlider" to="." method="_on_h_slider_value_changed"]
