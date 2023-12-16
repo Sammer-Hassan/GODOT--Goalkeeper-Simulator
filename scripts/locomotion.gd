@@ -71,3 +71,11 @@ func process_input(input_name: String, input_value: Vector2):
 		canSnap = true;
 	if input_name == "primary":
 		input_vector = input_value
+
+func _on_right_controller_button_pressed(name):
+	if name == "ax_button":
+		return "x"
+
+			
+	if name == "by_button":
+		return "y"
