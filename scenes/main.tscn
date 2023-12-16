@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://w7th3d2hl7b5" path="res://addons/godot-xr-tools/hands/model/Hand_Glove_R.gltf" id="4_cmvb2"]
 [ext_resource type="Script" path="res://scenes/laser_pointer.gd" id="5_awo5h"]
 [ext_resource type="PackedScene" uid="uid://bjqbrafyuiaqd" path="res://soccer_stadium/scene.gltf" id="5_v5ou3"]
-[ext_resource type="Texture2D" uid="uid://ycqv23xditx4" path="res://textures/myr3mcts2ir91.png" id="6_dlocs"]
+[ext_resource type="Texture2D" uid="uid://k5nwoeqqabg5" path="res://textures/soccer.jpg" id="7_35njt"]
 [ext_resource type="Script" path="res://scenes/SpatialMenu.gd" id="7_on8i7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w0hsn"]
@@ -32,7 +32,7 @@ fog_density = 0.001
 fog_sky_affect = 0.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_34fua"]
-albedo_texture = ExtResource("6_dlocs")
+albedo_texture = ExtResource("7_35njt")
 
 [sub_resource type="SphereMesh" id="SphereMesh_6n7no"]
 
@@ -42,6 +42,7 @@ albedo_texture = ExtResource("6_dlocs")
 size = Vector3(4, 0.1, 2)
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_7e2mt"]
+viewport_path = NodePath("SpatialMenu/MeshInstance3D/SubViewport")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u0t7q"]
 resource_local_to_scene = true
@@ -154,12 +155,13 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -20.0
-offset_right = 20.0
-offset_bottom = 20.0
+offset_left = -1024.0
+offset_top = -512.0
+offset_right = 1024.0
+offset_bottom = 512.0
 grow_horizontal = 2
 grow_vertical = 2
+color = Color(0.356863, 0.32549, 0.333333, 0.980392)
 
 [node name="Button" type="Button" parent="SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer"]
 anchors_preset = 8
@@ -167,13 +169,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -4.0
-offset_top = -4.0
-offset_right = 4.0
-offset_bottom = 4.0
+offset_left = -250.0
+offset_top = -124.5
+offset_right = 250.0
+offset_bottom = 125.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_nqcch")
+theme_override_font_sizes/font_size = 300
+text = "Start"
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="." method="_on_left_controller_button_pressed"]
 [connection signal="input_vector2_changed" from="XROrigin3D/LeftController" to="XROrigin3D" method="process_input"]
