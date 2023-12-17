@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://d03ov6e2kuuwl"]
+[gd_scene load_steps=23 format=3 uid="uid://d03ov6e2kuuwl"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_kvn2k"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bjqbrafyuiaqd" path="res://soccer_stadium/scene.gltf" id="5_v5ou3"]
 [ext_resource type="Texture2D" uid="uid://k5nwoeqqabg5" path="res://textures/soccer.jpg" id="7_35njt"]
 [ext_resource type="Script" path="res://scenes/SpatialMenu.gd" id="7_on8i7"]
+[ext_resource type="Script" path="res://scenes/CanvasLayer.gd" id="9_5x4hh"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w0hsn"]
 shading_mode = 0
@@ -104,7 +105,7 @@ transform = Transform3D(0.075, 0, 0, 0, 0.075, 0, 0, 0, 0.075, 0, 0, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.87343, 0, 12.8134)
 
 [node name="KickAreaCorner2" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.8758, 0, 22.8194)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 24.8758, 0, 20.8194)
 
 [node name="Ball" type="StaticBody3D" parent="."]
 transform = Transform3D(-0.96117, 0, 0.275956, 0, 1, 0, -0.275956, 0, -0.96117, 15.054, 0.536984, 18.659)
@@ -151,6 +152,7 @@ transparent_bg = true
 size = Vector2i(2048, 1024)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="SpatialMenu/MeshInstance3D/SubViewport"]
+script = ExtResource("9_5x4hh")
 
 [node name="ColorRect" type="ColorRect" parent="SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer"]
 anchors_preset = 8
@@ -198,12 +200,12 @@ step = 0.1
 value = 1.0
 
 [node name="TextEdit" type="TextEdit" parent="SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer"]
-offset_left = 40.0
+offset_left = 20.0
 offset_top = 870.0
-offset_right = 286.0
+offset_right = 345.0
 offset_bottom = 970.0
 theme_override_font_sizes/font_size = 60
-text = "Velocity"
+text = "Speed: 1"
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="." method="_on_left_controller_button_pressed"]
 [connection signal="input_vector2_changed" from="XROrigin3D/LeftController" to="XROrigin3D" method="process_input"]

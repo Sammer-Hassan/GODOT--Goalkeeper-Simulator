@@ -6,6 +6,7 @@ var xr_interface: XRInterface
 var tween
 var gameStarted = false;
 var ballSpeed = 1;
+var animating = false
 
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
@@ -22,20 +23,25 @@ func _ready():
 
 func _process(delta):
 	if gameStarted:
+		if animating:
+			$Ball.rotate_x(ballSpeed)
 		if currTarget:
 			if $Ball.global_position == currTarget:
 				misses += 1
 				$Misses.text = "Misses: " + str(misses)	
+				animating = false
 				set_random_start()
 		if $XROrigin3D/LeftController.global_position.distance_to($Ball.global_position) < $Ball/MeshInstance3D.mesh.radius or $XROrigin3D/RightController.global_position.distance_to($Ball.global_position) < $Ball/MeshInstance3D.mesh.radius:
 			tween.stop()
 			score += 1
 			$Saves.text = "Saves: " + str(score)
+			animating = false			
 			set_random_start()
 
 func animate_ball():
 	if gameStarted:
 		await get_tree().create_timer(1).timeout
+		animating = true
 		tween = create_tween()
 		tween.set_speed_scale(ballSpeed)
 		tween.tween_property($Ball, "position",get_random_target(), 1)
@@ -71,13 +77,16 @@ func _on_left_controller_button_pressed(name):
 
 func _on_right_controller_button_pressed(name):
 	if name == "by_button":
+		animating = false
 		set_random_start()
 	if name == "ax_button":
-		animate_ball()
+		if !animating:
+			animate_ball()
 
 
 func _on_button_pressed():
 	$SpatialMenu.visible = false
+	$XROrigin3D/RightController/LaserPointer.visible = false
 	gameStarted = true
 	
 
