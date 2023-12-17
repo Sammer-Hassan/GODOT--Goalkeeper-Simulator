@@ -13,3 +13,7 @@ Save Sound:
 Goal Sound:
 	https://pixabay.com/sound-effects/negative-beeps-6008/
 	Free to use Pixabay Content Agreement
+	
+	Soccer Kick:
+		https://mixkit.co/free-sound-effects/soccer/
+		Free to use under Mixkit License

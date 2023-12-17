@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dw36r2gornlqa"]
+
+[ext_resource type="PackedScene" uid="uid://bjqbrafyuiaqd" path="res://soccer_stadium/scene.gltf" id="1_ymfbh"]
+
+[node name="scene" instance=ExtResource("1_ymfbh")]
+
+[node name="lights" parent="Sketchfab_model/1659bf3ac82f4cd0b5187054c26fe765_fbx/RootNode" index="28"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 189.831, 122.061, -128.429)

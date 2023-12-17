@@ -45,6 +45,7 @@ func animate_ball():
 	if gameStarted:
 		$AudioStreamPlayer2.play()
 		await get_tree().create_timer(1.5).timeout
+		$AudioStreamPlayer5.play()
 		animating = true
 		tween = create_tween()
 		tween.set_speed_scale(ballSpeed)
