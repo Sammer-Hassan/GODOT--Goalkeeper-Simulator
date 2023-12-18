@@ -74,7 +74,7 @@ size = Vector3(789.255, 1, 1166.24)
 script = ExtResource("1_xecma")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
-transform = Transform3D(0.999957, 0, 0.00923268, 0, 1, 0, -0.00923268, 0, 0.999957, 15.4001, -0.64037, 29.1168)
+transform = Transform3D(0.999957, 0, 0.00923268, 0, 1, 0, -0.00923268, 0, 0.999957, 15.4001, -0.458264, 29.1168)
 script = ExtResource("2_kvn2k")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
