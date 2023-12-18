@@ -8,15 +8,14 @@ var gameStarted = false;
 var ballSpeed = 1;
 var animating = false
 var semaphore = 1
+var isStarted = true
 
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
 		print("OpenXR initialized successfully!")
-
 		# Turn off v-sync!
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
-
 		# Change our main viewport to output to the HMD
 		get_viewport().use_xr = true
 	else:
@@ -26,20 +25,15 @@ func _process(delta):
 	if gameStarted:
 		if animating:
 			$Ball.rotate_x(ballSpeed)
-		if currTarget:
-			if $Ball.global_position == currTarget:
-				$AudioStreamPlayer4.play()
-				misses += 1
-				$Misses.text = "Misses: " + str(misses)	
-				animating = false
-				set_random_start()
 		if $XROrigin3D/LeftController.global_position.distance_to($Ball.global_position) < $Ball/MeshInstance3D.mesh.radius or $XROrigin3D/RightController.global_position.distance_to($Ball.global_position) < $Ball/MeshInstance3D.mesh.radius:
-			tween.stop()
-			$AudioStreamPlayer3.play()
-			score += 1
-			$Saves.text = "Saves: " + str(score)
-			animating = false
-			set_random_start()
+			if isStarted:
+				tween.stop()
+				$AudioStreamPlayer3.play()
+				score += 1
+				$Saves.text = "Saves: " + str(score)
+				animating = false
+			isStarted = false
+#			set_random_start()
 
 func animate_ball():
 	if gameStarted:
@@ -49,24 +43,34 @@ func animate_ball():
 		animating = true
 		tween = create_tween()
 		tween.set_speed_scale(ballSpeed)
+		tween.connect("finished", on_tween_finished)
 		tween.tween_property($Ball, "position",get_random_target(), 1)
 	semaphore = semaphore + 1
 
 func set_random_start():
 	if gameStarted:
-		## Set Ball To Random Location
-		var cornerPos1 = $KickAreaCorner1.position
-		var cornerPos2 = $KickAreaCorner2.position
+		isStarted = true
+		## Set Ball To Random Locations
+		$Ball.sleeping = true
+		await get_tree().create_timer(0.2).timeout
+		var cornerPos1 = $KickAreaCorner1.global_position
+		var cornerPos2 = $KickAreaCorner2.global_position
 		var random_x = randf_range(cornerPos1.x,cornerPos2.x)
 		var random_z = randf_range(cornerPos1.z,cornerPos2.z)
-		$Ball.position.x = random_x
-		$Ball.position.z = random_z
-		$Ball.position.y = $Ball/MeshInstance3D.mesh.radius
-	
+		$Ball.global_position.x = random_x
+		$Ball.global_position.z = random_z
+		$Ball.global_position.y = $Ball/MeshInstance3D.mesh.radius
+
+func on_tween_finished():
+	$AudioStreamPlayer4.play()
+	misses += 1
+	$Misses.text = "Misses: " + str(misses)	
+	animating = false
+	set_random_start()
 
 func get_random_target():
-	var goalPost1 = $GoalPost1.position
-	var goalPost2 = $GoalPost2.position
+	var goalPost1 = $GoalPost1.global_position
+	var goalPost2 = $GoalPost2.global_position
 	var random_y = randf_range(goalPost1.y, goalPost2.y)
 	var random_x = randf_range(goalPost1.x, goalPost2.x)
 	currTarget = Vector3(random_x, random_y, goalPost1.z)
@@ -80,7 +84,7 @@ func _on_left_controller_button_pressed(name):
 #		set_random_start()
 	if name == "ax_button":
 		$SpatialMenu.visible = true
-		$XROrigin3D/RightController/LaserPointer.visible = true
+		$XROrigin3D/RightController/StaticBody3D/CollisionShape3D/LaserPointer.visible = true
 		gameStarted = false
 
 func _on_right_controller_button_pressed(name):
@@ -88,18 +92,17 @@ func _on_right_controller_button_pressed(name):
 		if semaphore != 1:
 			pass
 		else:
-
 			set_random_start()
-	if name == "ax_button":
-		
+	if name == "ax_button":		
 		if !animating and semaphore == 1:
 			semaphore = semaphore - 1
+		if !animating:
 			animate_ball()
 
 
 func _on_button_pressed():
 	$SpatialMenu.visible = false
-	$XROrigin3D/RightController/LaserPointer.visible = false
+	$XROrigin3D/RightController/StaticBody3D/CollisionShape3D/LaserPointer.visible = false
 	gameStarted = true
 	
 
