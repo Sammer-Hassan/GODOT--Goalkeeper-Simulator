@@ -11,7 +11,7 @@ func _process(delta):
 	self.scale.z = 100
 	self.position.z = -50
 
-	var start_point = get_parent().global_position
+	var start_point = get_parent().global_position + Vector3(0, 0, 20)
 	var end_point = get_parent().global_transform * Vector3(0, 0, -100)
 
 	var query = PhysicsRayQueryParameters3D.create(start_point, end_point)
