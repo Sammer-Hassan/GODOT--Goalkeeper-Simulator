@@ -9,6 +9,9 @@ var ballSpeed = 1;
 var animating = false
 var semaphore = 1
 var isStarted = true
+var gameMode = 0;
+var isPlaced = false;
+var upperBodyOnly = false
 
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
@@ -33,15 +36,21 @@ func _process(delta):
 				$Saves.text = "Saves: " + str(score)
 				animating = false
 			isStarted = false
-#			set_random_start()
+			if gameMode == 1:
+				await get_tree().create_timer(1.0).timeout
+				set_random_start()
+				await get_tree().create_timer(1.5).timeout
+				animate_ball()
 
 func animate_ball():
-	if gameStarted:
+	if gameStarted and isPlaced:
+		isPlaced = false
 		$AudioStreamPlayer2.play()
 		await get_tree().create_timer(1.5).timeout
 		$AudioStreamPlayer5.play()
 		animating = true
 		tween = create_tween()
+		ballSpeed = randf_range (0.5,2.5)
 		tween.set_speed_scale(ballSpeed)
 		tween.connect("finished", on_tween_finished)
 		tween.tween_property($Ball, "position",get_random_target(), 1)
@@ -49,6 +58,7 @@ func animate_ball():
 
 func set_random_start():
 	if gameStarted:
+		isPlaced = true
 		isStarted = true
 		## Set Ball To Random Locations
 		$Ball.sleeping = true
@@ -67,6 +77,9 @@ func on_tween_finished():
 	$Misses.text = "Misses: " + str(misses)	
 	animating = false
 	set_random_start()
+	if gameMode == 1:
+		await get_tree().create_timer(1.5).timeout
+		animate_ball()
 
 func get_random_target():
 	var goalPost1 = $GoalPost1.global_position
@@ -75,8 +88,6 @@ func get_random_target():
 	var random_x = randf_range(goalPost1.x, goalPost2.x)
 	currTarget = Vector3(random_x, random_y, goalPost1.z)
 	return currTarget
-#	print($XROrigin3D/LeftController.position)
-#	return $XROrigin3D/LeftController.position
 
 
 func _on_left_controller_button_pressed(name):
@@ -88,23 +99,27 @@ func _on_left_controller_button_pressed(name):
 		gameStarted = false
 
 func _on_right_controller_button_pressed(name):
-	if name == "by_button":
-		if semaphore != 1:
-			pass
-		else:
-			set_random_start()
-	if name == "ax_button":		
-		if !animating and semaphore == 1:
-			semaphore = semaphore - 1
-		if !animating:
-			animate_ball()
+	if gameMode == 0:
+		if name == "by_button":
+			if semaphore != 1:
+				pass
+			else:
+				set_random_start()
+		if name == "ax_button":		
+			if !animating and semaphore == 1:
+				semaphore = semaphore - 1
+			if !animating:
+				animate_ball()
 
 
 func _on_button_pressed():
 	$SpatialMenu.visible = false
 	$XROrigin3D/RightController/StaticBody3D/CollisionShape3D/LaserPointer.visible = false
 	gameStarted = true
-	
+	if gameMode == 1:
+		set_random_start()
+		await get_tree().create_timer(1.5).timeout
+		animate_ball()
 
 func _on_h_slider_value_changed(value):
 	ballSpeed = value
