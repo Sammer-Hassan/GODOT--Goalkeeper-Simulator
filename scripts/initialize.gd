@@ -54,7 +54,8 @@ func animate_ball():
 		spin = true
 		$AudioStreamPlayer5.play()
 		tween = create_tween()
-		ballSpeed = randf_range (0.5,2.5)
+		if gameMode == 1:
+			ballSpeed = randf_range (0.5,2.5)
 		tween.set_speed_scale(ballSpeed)
 		tween.connect("finished", on_tween_finished)
 		tween.tween_property($Ball, "position",get_random_target(), 1)
@@ -121,6 +122,8 @@ func _on_button_pressed():
 		set_random_start()
 		await get_tree().create_timer(1.5).timeout
 		animate_ball()
+	else:
+		ballSpeed = $SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer/HSlider.value
 
 func _on_h_slider_value_changed(value):
 	ballSpeed = value
