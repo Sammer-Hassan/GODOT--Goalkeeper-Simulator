@@ -12,5 +12,5 @@ func _process(delta):
 
 
 func _on_check_button_toggled(button_pressed):
-	print(button_pressed)
+
 	play = !button_pressed

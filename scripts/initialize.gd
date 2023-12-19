@@ -32,6 +32,9 @@ func _process(delta):
 		if $XROrigin3D/LeftController.global_position.distance_to($Ball.global_position) < $Ball/MeshInstance3D.mesh.radius or $XROrigin3D/RightController.global_position.distance_to($Ball.global_position) < $Ball/MeshInstance3D.mesh.radius:
 			if isStarted:
 				tween.stop()
+				print("triger")
+				$XROrigin3D/LeftController.trigger_haptic_pulse("haptic", 5, 5, .5, 0)  
+				$XROrigin3D/RightController.trigger_haptic_pulse("haptic", 5, 5, .5, 0)  
 				
 				$AudioStreamPlayer3.play()
 				score += 1
