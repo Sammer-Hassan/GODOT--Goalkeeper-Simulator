@@ -20,11 +20,10 @@ func _process(delta):
 	# Forward translation
 	if self.input_vector_right.y > self.dead_zone || self.input_vector_right.y < -self.dead_zone:
 		var movement_vector = Vector3(0, 0, max_speed * -self.input_vector_right.y * delta)
-		self.position += movement_vector
-
+		self.position += movement_vector.rotated(Vector3.UP, global_rotation.y)
 	if self.input_vector_right.x > self.dead_zone || self.input_vector_right.x < -self.dead_zone:
 		var movement_vector = Vector3(max_speed * self.input_vector_right.x * delta, 0, 0)
-		self.position += movement_vector
+		self.position += movement_vector.rotated(Vector3.UP, global_rotation.y)
 	
 	# Smooth turn
 	if self.input_vector_left.x > self.smooth_turn_dead_zone || self.input_vector_left.x < -self.smooth_turn_dead_zone:
