@@ -264,6 +264,18 @@ Right Controller:
 B - Place Ball
 A - Kick Ball"
 
+[node name="TextEdit4" type="TextEdit" parent="SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer"]
+offset_left = 50.0
+offset_top = 200.0
+offset_right = 450.0
+offset_bottom = 400.0
+theme_override_font_sizes/font_size = 24
+text = "Controlled: Use the controller to 
+set and place the ball on
+command, uses speed set on 
+speed bar at the bottom.
+"
+
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("10_8y1sx")
 volume_db = -15.0

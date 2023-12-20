@@ -143,6 +143,13 @@ func _on_check_button_2_toggled(button_pressed):
 
 	if button_pressed:
 		gameMode = 0
+		$SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer/TextEdit4.text = """Controlled: Use the controller to 
+set and place the ball on
+command, uses speed set on 
+speed bar at the bottom"""
 	else:
 		gameMode = 1
+		$SpatialMenu/MeshInstance3D/SubViewport/CanvasLayer/TextEdit4.text = """Random: Ball is continuously 
+kicked and placed automatically. 
+Ball kick speed is random."""
 
